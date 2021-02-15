@@ -53,6 +53,18 @@ main {
     margin: auto;
 }
 
+h3 {
+    font-family: Calibri, sans-serif;
+    font-size: 24px;
+    font-weight: bolder;
+}
+
+h4 {
+    font-family: Calibri, sans-serif;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
 #favourites {
     display: flex;
     flex-wrap: wrap;
@@ -62,13 +74,15 @@ main {
     display: flex;
     justify-content: space-between;
     background-color: darkgrey;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 3px;
+    margin-bottom: 3px;
     padding: 8px;
 }
 
 .favorite-item-header {
     display: flex;
+    align-items: center;
+    margin-bottom: 5px;
 }
 
 .weather-features {
@@ -87,4 +101,19 @@ main {
 
 .item-header-entry {
     margin-right: 10%;
+}
+
+.t-favourite {
+    font-family: Calibri, sans-serif;
+    font-size: 28px;
+}
+
+.feature-name {
+    color: white;
+}
+
+.feature-text {
+    font-family: Calibri, sans-serif;
+    font-weight: lighter;
+    color: white;
 }
