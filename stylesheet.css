@@ -79,6 +79,18 @@ h4 {
     justify-content: space-between;
 }
 
+#current {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#current-weather {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .grey-rect {
     display: flex;
     justify-content: space-between;
@@ -119,6 +131,12 @@ h4 {
     font-size: 28px;
 }
 
+#t-current {
+    font-family: Calibri, sans-serif;
+    font-size: 140px;
+    margin-right: 20px;
+}
+
 .feature-name {
     color: white;
 }
@@ -135,6 +153,30 @@ h4 {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+}
+
+#current-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#update-button {
+    background-color: lightgrey;
+    height: 40px;
+    width: 250px;
+    margin-right: 375px;
+}
+
+#update-button-text {
+    font-family: "Times New Roman", sans-serif;
+    font-size: 16px;
+    color: grey;
+}
+
+.update-button-icon {
+    display: none;
 }
 
 #add-city-label {
@@ -158,13 +200,20 @@ h4 {
     white-space: nowrap;
 }
 
-@media only screen and (max-width: 1000px) {
+#current-weather-block {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 46%;
+}
+
+#current-city-name {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 1050px) {
     main {
         width: auto;
-    }
-
-    #favourites {
-        flex-direction: row;
     }
 
     .location {
@@ -173,5 +222,38 @@ h4 {
 
     #add-city-label {
         width: 100%;
+    }
+
+    #update-button {
+        height: auto;
+        width: auto;
+        margin-left: 40px;
+        margin-right: auto;
+    }
+
+    #update-button-text {
+        display: none;
+    }
+
+    .update-button-icon {
+        display: block;
+        font-size: 32px;
+    }
+
+    #current-header {
+        justify-content: flex-start;
+    }
+
+    #current-weather-block {
+        width: 100%;
+    }
+
+    #current-weather {
+        justify-content: flex-start;
+    }
+
+    #t-current {
+        margin-left: 100px;
+        margin-right: auto;
     }
 }

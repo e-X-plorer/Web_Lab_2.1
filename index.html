@@ -8,6 +8,44 @@
 </head>
 <body>
     <main>
+        <section id="current">
+            <div id="current-header">
+                <h2>Погода здесь</h2>
+                <button id="update-button">
+                    <span id="update-button-text">Обновить геолокацию</span>
+                    <i class="material-icons update-button-icon">update</i>
+                </button>
+            </div>
+            <div id="current-weather-block">
+                <h3 id="current-city-name">Saint Petersburg</h3>
+                <div id="current-weather">
+                    <i class="material-icons" style="font-size: 140px">cloud</i>
+                    <span id="t-current">5°C</span>
+                </div>
+            </div>
+            <ul class="weather-features location">
+                <li class="grey-rect">
+                    <h4 class="feature-name">Ветер</h4>
+                    <span class="feature-text">Moderate breeze, 6.0 m/s, North-northwest</span>
+                </li>
+                <li class="grey-rect">
+                    <h4 class="feature-name">Облачность</h4>
+                    <span class="feature-text">Broken clouds</span>
+                </li>
+                <li class="grey-rect">
+                    <h4 class="feature-name">Давление</h4>
+                    <span class="feature-text">1013 hpa</span>
+                </li>
+                <li class="grey-rect">
+                    <h4 class="feature-name">Влажность</h4>
+                    <span class="feature-text">52%</span>
+                </li>
+                <li class="grey-rect">
+                    <h4 class="feature-name">Координаты</h4>
+                    <span class="feature-text">[59.88, 30.42]</span>
+                </li>
+            </ul>
+        </section>
         <section id="favourites">
             <div id="favourites-header">
                 <h2>Избранное</h2>
