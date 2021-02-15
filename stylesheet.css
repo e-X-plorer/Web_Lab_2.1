@@ -51,6 +51,14 @@ button {
 main {
     width: 1000px;
     margin: auto;
+    padding: 10px 10px
+}
+
+h2 {
+    font-family: "Times New Roman", sans-serif;
+    font-size: 32px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 h3 {
@@ -68,11 +76,13 @@ h4 {
 #favourites {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .grey-rect {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     background-color: darkgrey;
     margin-top: 3px;
     margin-bottom: 3px;
@@ -91,8 +101,9 @@ h4 {
 }
 
 .location {
-    margin: 2% 3%;
-    width: 44%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 46%;
 }
 
 .close-button {
@@ -116,4 +127,51 @@ h4 {
     font-family: Calibri, sans-serif;
     font-weight: lighter;
     color: white;
+}
+
+#favourites-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#add-city-label {
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#add-city-textarea {
+    width: 100%;
+    height: 20px;
+    outline: none;
+    border: none;
+    background-color: #e2e2e2;
+    resize: none;
+    padding: 10px;
+    font-family: "Times New Roman", sans-serif;
+    font-size: 16px;
+    color: grey;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+@media only screen and (max-width: 1000px) {
+    main {
+        width: auto;
+    }
+
+    #favourites {
+        flex-direction: row;
+    }
+
+    .location {
+        width: 100%
+    }
+
+    #add-city-label {
+        width: 100%;
+    }
 }
