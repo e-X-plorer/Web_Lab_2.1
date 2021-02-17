@@ -153,16 +153,15 @@ h4 {
 #current-header {
     grid-row: 1 / 1;
     grid-column: 1 / -1;
-    display: flex;
+    display: grid;
     align-items: center;
-    justify-content: space-between;
+    grid-template-columns: 1fr 250px 1fr;
 }
 
 #update-button {
     background-color: lightgrey;
     height: 40px;
-    width: 250px;
-    /*margin-right: 375px;*/
+    width: 100%;
 }
 
 #update-button-text {
@@ -246,6 +245,7 @@ h4 {
     }
 
     #current-header {
+        display: flex;
         justify-content: flex-start;
     }
 
