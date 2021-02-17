@@ -49,9 +49,11 @@ button {
 }
 
 main {
-    width: 1000px;
-    margin: auto;
-    padding: 10px 10px
+    display: grid;
+    grid-column-gap: 70px;
+    grid-row-gap: 20px;
+    padding: 10px 10px;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 }
 
 h2 {
@@ -73,22 +75,20 @@ h4 {
     font-weight: bolder;
 }
 
-#favourites {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-#current {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
 #current-weather {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+#current-weather-features {
+    grid-row: 2 / 2;
+    grid-column: 2 / 2;
+}
+
+#filler {
+    grid-row: 2 / 2;
+    grid-column: 2 / -1;
 }
 
 .grey-rect {
@@ -110,12 +110,6 @@ h4 {
 .weather-features {
     display: flex;
     flex-direction: column;
-}
-
-.location {
-    margin-top: 2%;
-    margin-bottom: 2%;
-    width: 46%;
 }
 
 .close-button {
@@ -148,15 +142,17 @@ h4 {
 }
 
 #favourites-header {
-    width: 100%;
+    grid-row: 3 / 3;
+    grid-column: 1 / -1;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     flex-wrap: wrap;
 }
 
 #current-header {
-    width: 100%;
+    grid-row: 1 / 1;
+    grid-column: 1 / -1;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -166,7 +162,7 @@ h4 {
     background-color: lightgrey;
     height: 40px;
     width: 250px;
-    margin-right: 375px;
+    /*margin-right: 375px;*/
 }
 
 #update-button-text {
@@ -201,9 +197,8 @@ h4 {
 }
 
 #current-weather-block {
-    margin-top: 2%;
-    margin-bottom: 2%;
-    width: 46%;
+    grid-row: 2 / 2;
+    grid-column: 1 / 1;
 }
 
 #current-city-name {
@@ -211,13 +206,23 @@ h4 {
     margin-bottom: 20px;
 }
 
-@media only screen and (max-width: 1050px) {
+@media only screen and (max-width: 950px) {
     main {
-        width: auto;
+        grid-template-columns: 100%;
     }
 
-    .location {
-        width: 100%
+    #current-weather-features {
+        grid-row: 3 / 3;
+        grid-column: 1 / 1;
+    }
+
+    #filler {
+        grid-row: 3 / 3;
+        grid-column: 1 / 1;
+    }
+
+    #favourites-header {
+        grid-row: 4 / 4;
     }
 
     #add-city-label {
