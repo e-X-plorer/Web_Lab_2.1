@@ -75,6 +75,10 @@ h4 {
     font-weight: bolder;
 }
 
+.display-contents {
+    display: contents;
+}
+
 #current-weather {
     display: flex;
     justify-content: space-between;
@@ -174,13 +178,13 @@ h4 {
     display: none;
 }
 
-#add-city-label {
+#add-city-form {
     width: 400px;
     display: flex;
     justify-content: space-between;
 }
 
-#add-city-textarea {
+#add-city-input {
     width: 100%;
     height: 20px;
     outline: none;
@@ -193,6 +197,12 @@ h4 {
     color: grey;
     overflow: hidden;
     white-space: nowrap;
+}
+
+#add-button {
+    outline: none;
+    background: none;
+    border: none;
 }
 
 #current-weather-block {
@@ -224,7 +234,7 @@ h4 {
         grid-row: 4 / 4;
     }
 
-    #add-city-label {
+    #add-city-form {
         width: 100%;
     }
 
