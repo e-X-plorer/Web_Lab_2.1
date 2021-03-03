@@ -79,13 +79,14 @@ h4 {
     display: contents;
 }
 
-#current-weather {
+#current-weather-icon {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 #current-weather-features {
+    display: none;
     grid-row: 2 / 2;
     grid-column: 2 / 2;
 }
@@ -206,6 +207,7 @@ h4 {
 }
 
 #current-weather-block {
+    display: none;
     grid-row: 2 / 2;
     grid-column: 1 / 1;
 }
@@ -213,6 +215,42 @@ h4 {
 #current-city-name {
     font-size: 36px;
     margin-bottom: 20px;
+}
+
+#loading-placeholder-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    grid-row: 2 / 2;
+    grid-column: 1 / -1;
+}
+
+#loading-placeholder-top > span {
+    display: block;
+    font-family: "Times New Roman", sans-serif;
+    font-size: 40px;
+    color: grey;
+}
+
+.lds-dual-ring {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 20px;
+    border-radius: 50%;
+    border: 5px solid black;
+    border-color: black transparent black transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @media only screen and (max-width: 950px) {
@@ -263,7 +301,7 @@ h4 {
         width: 100%;
     }
 
-    #current-weather {
+    #current-weather-icon {
         justify-content: flex-start;
     }
 

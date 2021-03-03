@@ -16,9 +16,13 @@
                     <i class="material-icons update-button-icon">refresh</i>
                 </button>
             </div>
+            <div id="loading-placeholder-top">
+                <span>Подождите, данные загружаются</span>
+                <div class="lds-dual-ring"></div>
+            </div>
             <div id="current-weather-block">
-                <h3 id="current-city-name">Saint Petersburg</h3>
-                <div id="current-weather">
+                <h3 id="current-city-name">Moscow</h3>
+                <div id="current-weather-icon">
                     <i class="material-icons" style="font-size: 140px">cloud</i>
                     <span id="t-current">5°C</span>
                 </div>
@@ -55,100 +59,6 @@
                     <input type="text" name="input-area" id="add-city-input" placeholder="Добавить новый город" required>
                     <input type="submit" value="add" class="material-icons" id="add-button">
                 </form>
-                <!--<label id="add-city-label">
-                    <textarea id="add-city-textarea" placeholder="Добавить новый город"></textarea>
-                    <button><i class="material-icons">add</i></button>
-                </label>-->
-            </div>
-            <div class="location">
-                <div class="favorite-item-header">
-                    <h3 class="item-header-entry">Moscow</h3>
-                    <span class="item-header-entry t-favourite">5°C</span>
-                    <i class="material-icons" style="font-size: 28px">cloud</i>
-                    <button class="close-button"><i class="material-icons">close</i></button>
-                </div>
-                <ul class="weather-features">
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Ветер</h4>
-                        <span class="feature-text">Moderate breeze, 6.0 m/s, North-northwest</span>
-                    </li>
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Облачность</h4>
-                        <span class="feature-text">Broken clouds</span>
-                    </li>
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Давление</h4>
-                        <span class="feature-text">1013 hpa</span>
-                    </li>
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Влажность</h4>
-                        <span class="feature-text">52%</span>
-                    </li>
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Координаты</h4>
-                        <span class="feature-text">[59.88, 30.42]</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="location">
-                <div class="favorite-item-header">
-                    <h3 class="item-header-entry">Moscow</h3>
-                    <span class="item-header-entry t-favourite">5°C</span>
-                    <i class="material-icons" style="font-size: 28px">cloud</i>
-                    <button class="close-button"><i class="material-icons">close</i></button>
-                </div>
-                <ul class="weather-features">
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Ветер</h4>
-                        <span class="feature-text">Moderate breeze, 6.0 m/s, North-northwest</span>
-                    </li>
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Облачность</h4>
-                        <span class="feature-text">Broken clouds</span>
-                    </li>
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Давление</h4>
-                        <span class="feature-text">1013 hpa</span>
-                    </li>
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Влажность</h4>
-                        <span class="feature-text">52%</span>
-                    </li>
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Координаты</h4>
-                        <span class="feature-text">[59.88, 30.42]</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="location">
-                <div class="favorite-item-header">
-                    <h3 class="item-header-entry">Moscow</h3>
-                    <span class="item-header-entry t-favourite">5°C</span>
-                    <i class="material-icons" style="font-size: 28px">cloud</i>
-                    <button class="close-button"><i class="material-icons">close</i></button>
-                </div>
-                <ul class="weather-features">
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Ветер</h4>
-                        <span class="feature-text">Moderate breeze, 6.0 m/s, North-northwest</span>
-                    </li>
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Облачность</h4>
-                        <span class="feature-text">Broken clouds</span>
-                    </li>
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Давление</h4>
-                        <span class="feature-text">1013 hpa</span>
-                    </li>
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Влажность</h4>
-                        <span class="feature-text">52%</span>
-                    </li>
-                    <li class="grey-rect">
-                        <h4 class="feature-name">Координаты</h4>
-                        <span class="feature-text">[59.88, 30.42]</span>
-                    </li>
-                </ul>
             </div>
             <div class="location">
                 <div class="favorite-item-header">
@@ -182,5 +92,6 @@
             </div>
         </section>
     </main>
+    <script src="start.js"></script>
 </body>
 </html>
