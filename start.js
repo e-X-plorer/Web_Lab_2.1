@@ -1,8 +1,9 @@
 const locationTemplate = document.getElementById("location-template");
 const citiesList = document.getElementById("cities");
+const addCityInput = document.getElementById("add-city-input");
 document.getElementById("add-city-form").addEventListener("submit", addCityEventHandler);
 for (let i = 0; i < localStorage.length; i++) {
-    addCity(localStorage.getItem(i.toString()), true);
+    addCity(localStorage.getItem(localStorage.key(i)), true);
 }
 
 function fetchByCity(city) {
@@ -15,13 +16,14 @@ function fetchByLocation(location) {
         .then(response => response.json());
 }
 
-function showWeather(weatherInfo, loadingPlaceholderElement, cityNameElement, temperatureElement, weatherElement, elementsToShow = []) {
+function showWeather(weatherInfo, loadingPlaceholderElement, cityNameElement, temperatureElement, imgElement, weatherElement, elementsToShow = []) {
     loadingPlaceholderElement.style.display = "none";
     for (const element of elementsToShow) {
         element.style.display = "block";
     }
     cityNameElement.innerHTML = weatherInfo.name;
     temperatureElement.innerHTML = `${Math.round(weatherInfo.main.temp)}°C`
+    imgElement.src = `${weatherInfo.weather[0].icon}.png`;
     const weatherFeatures = weatherElement.children;
     weatherFeatures[0].children[1].innerHTML = `${Math.round(weatherInfo.wind.speed)} m/s, ${weatherInfo.wind.deg}°`;
     weatherFeatures[1].children[1].innerHTML = `${weatherInfo.clouds.all}%`;
@@ -39,10 +41,11 @@ function addCity(cityName, isCalledFromStorage) {
             showWeather(obj, newCityElement.children[0],
                 newCityElement.querySelector("div.favorite-item-header h3"),
                 newCityElement.querySelector(".t-favourite"),
+                newCityElement.querySelector(".weather-img"),
                 newCityElement.querySelector(".weather-features"),
                 [newCityElement.children[1]]);
             if (!isCalledFromStorage)
-                localStorage.setItem(localStorage.length.toString(), cityName);
+                localStorage.setItem(obj.name, obj.name);
         }).catch(() => {
         citiesList.removeChild(newCityElement);
         alert("Could not retrieve information on this city.");
@@ -51,7 +54,14 @@ function addCity(cityName, isCalledFromStorage) {
 
 function addCityEventHandler(event) {
     event.preventDefault();
-    addCity(document.getElementById("add-city-input").value.trim(), false);
+    addCity(addCityInput.value.trim(), false);
+    addCityInput.value = "";
+}
+
+function removeCity(caller) {
+    let cityToRemove = caller.closest(".location-container");
+    cityToRemove.remove();
+    localStorage.removeItem(cityToRemove.querySelector("div.favorite-item-header h3").innerHTML);
 }
 
 navigator.geolocation.getCurrentPosition(position =>
@@ -59,6 +69,7 @@ navigator.geolocation.getCurrentPosition(position =>
         showWeather(obj, document.getElementById("loading-placeholder-top"),
             document.getElementById("current-city-name"),
             document.getElementById("t-current"),
+            document.getElementById("weather-img-big"),
             document.getElementById("current-weather-features"),
             [document.getElementById("current-weather-block"), document.getElementById("current-weather-features")]))
         .catch(() => alert("An error has occurred.")),
@@ -67,6 +78,7 @@ navigator.geolocation.getCurrentPosition(position =>
         showWeather(obj, document.getElementById("loading-placeholder-top"),
             document.getElementById("current-city-name"),
             document.getElementById("t-current"),
+            document.getElementById("weather-img-big"),
             document.getElementById("current-weather-features"),
             [document.getElementById("current-weather-block"), document.getElementById("current-weather-features")]))
         .catch(() => alert("An error has occurred.")));

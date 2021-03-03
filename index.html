@@ -23,7 +23,8 @@
             <div id="current-weather-block">
                 <h3 id="current-city-name">Moscow</h3>
                 <div id="current-weather-icon">
-                    <i class="material-icons" style="font-size: 140px">cloud</i>
+                    <img src="01d.png" id="weather-img-big">
+                    <!--<i class="material-icons" style="font-size: 140px">cloud</i>-->
                     <span id="t-current">5°C</span>
                 </div>
             </div>
@@ -61,7 +62,7 @@
                 </form>
             </div>
             <template id="location-template">
-                <div>
+                <div class="location-container">
                     <div class="loading-placeholder">
                         <span>Подождите, данные загружаются</span>
                         <div class="lds-dual-ring"></div>
@@ -70,8 +71,9 @@
                         <div class="favorite-item-header">
                             <h3 class="item-header-entry">undefined city name</h3>
                             <span class="item-header-entry t-favourite">?°C</span>
-                            <i class="material-icons" style="font-size: 28px">cloud</i>
-                            <button class="close-button"><i class="material-icons">close</i></button>
+                            <img src="01d.png" class="weather-img">
+                            <!--<i class="material-icons" style="font-size: 28px">cloud</i>-->
+                            <button class="close-button" onclick="removeCity(this)"><i class="material-icons">close</i></button>
                         </div>
                         <ul class="weather-features">
                             <li class="grey-rect">

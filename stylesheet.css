@@ -255,6 +255,16 @@ h4 {
     animation: lds-dual-ring 1.2s linear infinite;
 }
 
+.weather-img {
+    height: 40px;
+    width: 40px;
+}
+
+#weather-img-big {
+    height: 120px;
+    width: 120px;
+}
+
 @keyframes lds-dual-ring {
     0% {
         transform: rotate(0deg);
