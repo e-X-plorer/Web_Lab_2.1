@@ -7,12 +7,12 @@ for (let i = 0; i < localStorage.length; i++) {
 }
 
 function fetchByCity(city) {
-    return fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
+    return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
         .then(response => response.json());
 }
 
 function fetchByLocation(location) {
-    return fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${location.coords.latitude}&lon=${location.coords.longitude}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
+    return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location.coords.latitude}&lon=${location.coords.longitude}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
         .then(response => response.json());
 }
 
