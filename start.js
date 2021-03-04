@@ -54,7 +54,7 @@ function addCity(cityName, isCalledFromStorage) {
 
 function addCityEventHandler(event) {
     event.preventDefault();
-    addCity(addCityInput.value.trim(), false);
+    addCity(addCityInput.value.trim().toLowerCase().replace(/\s+/g, ' '), false);
     addCityInput.value = "";
 }
 
