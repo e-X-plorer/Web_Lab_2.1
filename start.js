@@ -1,6 +1,7 @@
 const locationTemplate = document.getElementById("location-template");
 const citiesList = document.getElementById("cities");
 const addCityInput = document.getElementById("add-city-input");
+
 document.getElementById("add-city-form").addEventListener("submit", addCityEventHandler);
 for (let i = 0; i < localStorage.length; i++) {
     addCity(localStorage.getItem(localStorage.key(i)), true);
