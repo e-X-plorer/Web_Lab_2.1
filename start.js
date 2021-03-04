@@ -1,20 +1,20 @@
+const citiesNamesToIdsMap = {};
 const locationTemplate = document.getElementById("location-template");
 const citiesList = document.getElementById("cities");
 const addCityInput = document.getElementById("add-city-input");
-
 document.getElementById("add-city-form").addEventListener("submit", addCityEventHandler);
-for (let i = 0; i < localStorage.length; i++) {
-    addCity(localStorage.getItem(localStorage.key(i)), true);
-}
 
-function fetchByCity(city) {
-    return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
-        .then(response => response.json());
-}
-
-function fetchByLocation(location) {
-    return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location.coords.latitude}&lon=${location.coords.longitude}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
-        .then(response => response.json());
+function fetchLocation(location) {
+    if (location instanceof GeolocationPosition) {
+        return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location.coords.latitude}&lon=${location.coords.longitude}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
+            .then(response => response.json());
+    } else if (isNaN(location)) {
+        return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
+            .then(response => response.json());
+    } else {
+        return fetch(`https://api.openweathermap.org/data/2.5/weather?id=${location}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
+            .then(response => response.json());
+    }
 }
 
 function showWeather(weatherInfo, loadingPlaceholderElement, cityNameElement, temperatureElement, imgElement, weatherElement, elementsToShow = []) {
@@ -24,7 +24,7 @@ function showWeather(weatherInfo, loadingPlaceholderElement, cityNameElement, te
     }
     cityNameElement.innerHTML = weatherInfo.name;
     temperatureElement.innerHTML = `${Math.round(weatherInfo.main.temp)}°C`
-    imgElement.src = `${weatherInfo.weather[0].icon}.png`;
+    imgElement.src = `img/${weatherInfo.weather[0].icon}.png`;
     const weatherFeatures = weatherElement.children;
     weatherFeatures[0].children[1].innerHTML = `${Math.round(weatherInfo.wind.speed)} m/s, ${weatherInfo.wind.deg}°`;
     weatherFeatures[1].children[1].innerHTML = `${weatherInfo.clouds.all}%`;
@@ -33,24 +33,38 @@ function showWeather(weatherInfo, loadingPlaceholderElement, cityNameElement, te
     weatherFeatures[4].children[1].innerHTML = `[${weatherInfo.coord.lat}, ${weatherInfo.coord.lon}]`;
 }
 
-function addCity(cityName, isCalledFromStorage) {
+function hideWeather(loadingPlaceholderElement, elementsToHide = []) {
+    for (const element of elementsToHide) {
+        element.style.display = "none";
+    }
+    loadingPlaceholderElement.style.display = "flex";
+}
+
+function updateFavouriteCity(city, cityElement, isCalledFromStorage) {
+    fetchLocation(city)
+        .then(obj => {
+            showWeather(obj, cityElement.children[0],
+                cityElement.querySelector("div.favorite-item-header h3"),
+                cityElement.querySelector(".t-favourite"),
+                cityElement.querySelector(".weather-img"),
+                cityElement.querySelector(".weather-features"),
+                [cityElement.children[1]]);
+            if (!isCalledFromStorage)
+                if (localStorage.getItem(obj.id) !== null)
+                    throw new Error("This city has already been added.");
+                localStorage.setItem(obj.id, obj.id);
+                citiesNamesToIdsMap[obj.name] = obj.id;
+        }).catch(error => {
+        citiesList.removeChild(cityElement);
+        alert(error);
+    });
+}
+
+function addCity(city, isCalledFromStorage) {
     let newCityElement = locationTemplate.content.cloneNode(true);
     citiesList.appendChild(newCityElement);
     newCityElement = citiesList.lastElementChild;
-    fetchByCity(cityName)
-        .then(obj => {
-            showWeather(obj, newCityElement.children[0],
-                newCityElement.querySelector("div.favorite-item-header h3"),
-                newCityElement.querySelector(".t-favourite"),
-                newCityElement.querySelector(".weather-img"),
-                newCityElement.querySelector(".weather-features"),
-                [newCityElement.children[1]]);
-            if (!isCalledFromStorage)
-                localStorage.setItem(obj.name, obj.name);
-        }).catch(() => {
-        citiesList.removeChild(newCityElement);
-        alert("Could not retrieve information on this city.");
-    });
+    updateFavouriteCity(city, newCityElement, isCalledFromStorage);
 }
 
 function addCityEventHandler(event) {
@@ -62,24 +76,30 @@ function addCityEventHandler(event) {
 function removeCity(caller) {
     let cityToRemove = caller.closest(".location-container");
     cityToRemove.remove();
-    localStorage.removeItem(cityToRemove.querySelector("div.favorite-item-header h3").innerHTML);
+    const cityName = cityToRemove.querySelector("div.favorite-item-header h3").innerHTML;
+    localStorage.removeItem(citiesNamesToIdsMap[cityName]);
+    delete citiesNamesToIdsMap[cityName];
 }
 
-navigator.geolocation.getCurrentPosition(position =>
-    fetchByLocation(position).then(obj =>
+function updateDefaultCity(position) {
+    fetchLocation(position).then(obj =>
         showWeather(obj, document.getElementById("loading-placeholder-top"),
             document.getElementById("current-city-name"),
             document.getElementById("t-current"),
             document.getElementById("weather-img-big"),
             document.getElementById("current-weather-features"),
             [document.getElementById("current-weather-block"), document.getElementById("current-weather-features")]))
-        .catch(() => alert("An error has occurred.")),
-    () =>
-    fetchByCity("Moscow,ru").then(obj =>
-        showWeather(obj, document.getElementById("loading-placeholder-top"),
-            document.getElementById("current-city-name"),
-            document.getElementById("t-current"),
-            document.getElementById("weather-img-big"),
-            document.getElementById("current-weather-features"),
-            [document.getElementById("current-weather-block"), document.getElementById("current-weather-features")]))
-        .catch(() => alert("An error has occurred.")));
+        .catch(() => alert("An error has occurred."));
+}
+
+function refresh() {
+    hideWeather(document.getElementById("loading-placeholder-top"),
+        [document.getElementById("current-weather-block"), document.getElementById("current-weather-features")]);
+    document.querySelectorAll("#cities .location-container").forEach(city => city.remove());
+    navigator.geolocation.getCurrentPosition(position => updateDefaultCity(position), () => updateDefaultCity("Moscow"));
+    for (let i = 0; i < localStorage.length; i++) {
+        addCity(localStorage.getItem(localStorage.key(i)), true);
+    }
+}
+
+refresh();

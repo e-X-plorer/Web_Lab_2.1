@@ -11,7 +11,7 @@
         <section id="header" class="display-contents">
             <div id="current-header">
                 <h2>Погода здесь</h2>
-                <button id="update-button">
+                <button id="update-button" onclick="refresh()">
                     <span id="update-button-text">Обновить геолокацию</span>
                     <i class="material-icons update-button-icon">refresh</i>
                 </button>
@@ -21,11 +21,11 @@
                 <div class="lds-dual-ring"></div>
             </div>
             <div id="current-weather-block">
-                <h3 id="current-city-name">Moscow</h3>
+                <h3 id="current-city-name">undefined city name</h3>
                 <div id="current-weather-icon">
-                    <img src="01d.png" id="weather-img-big">
+                    <img src="img/01d.png" id="weather-img-big">
                     <!--<i class="material-icons" style="font-size: 140px">cloud</i>-->
-                    <span id="t-current">5°C</span>
+                    <span id="t-current">?°C</span>
                 </div>
             </div>
             <ul id="current-weather-features" class="weather-features">
@@ -71,7 +71,7 @@
                         <div class="favorite-item-header">
                             <h3 class="item-header-entry">undefined city name</h3>
                             <span class="item-header-entry t-favourite">?°C</span>
-                            <img src="01d.png" class="weather-img">
+                            <img src="img/01d.png" class="weather-img">
                             <!--<i class="material-icons" style="font-size: 28px">cloud</i>-->
                             <button class="close-button" onclick="removeCity(this)"><i class="material-icons">close</i></button>
                         </div>
