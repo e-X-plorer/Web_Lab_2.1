@@ -26,33 +26,45 @@ app.get('/favourites', async function(req, res) {
 
 app.post('/favourites', async function(req, res) {
     let id = req.query.id;
-    res.send(await db.collection('weather').insertOne({ id: id }));
+    let result = await db.collection('weather').insertOne({ id: id });
+    res.send(result);
 });
 
 app.delete('/favourites', async function(req, res) {
     let id = req.query.id;
-    res.send(await db.collection('weather').deleteOne({ id: id }));
+    let result = await db.collection('weather').deleteOne({ id: id });
+    res.send(result);
 });
 
 app.get('/weather/coordinates', async function(req, res) {
     let lat = req.query.lat;
     let long = req.query.long;
-    res.send(await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
-        .then(response => response.json()));
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
+        .then(response => response.json()).then(json => {
+            if (json.cod == 404)
+                res.status(404);
+            res.send(json);
+        });
 });
 
 app.get('/weather/city', async function(req, res) {
     let city = req.query.q;
     let id = req.query.id;
     if (id) {
-        res.send(await
-            fetch(`https://api.openweathermap.org/data/2.5/weather?id=${id}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
-                .then(response => response.json()));
+        fetch(`https://api.openweathermap.org/data/2.5/weather?id=${id}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
+            .then(response => response.json()).then(json => {
+                if (json.cod == 404)
+                    res.status(404);
+                res.send(json);
+            });
     }
     else {
-        res.send(await
-            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
-                .then(response => response.json()));
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
+            .then(response => response.json()).then(json => {
+                if (json.cod == 404)
+                    res.status(404);
+                res.send(json);
+            });
     }
 });
 
