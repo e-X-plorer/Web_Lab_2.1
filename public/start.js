@@ -6,14 +6,16 @@ document.getElementById("add-city-form").addEventListener("submit", addCityEvent
 
 function fetchLocation(location) {
     if (location instanceof GeolocationPosition) {
-        return fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location.coords.latitude}&lon=${location.coords.longitude}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
-            .then(response => response.json());
+        return fetch(`/weather/coordinates?lat=${location.coords.latitude}&long=${location.coords.longitude}`)
+            .then(obj => obj.json());
     } else if (isNaN(location)) {
-        return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
-            .then(response => response.json());
+        /*let req = new XMLHttpRequest();
+        req.open('GET', `/weather/city?q=${location}`);
+        req.send();
+        console.log(req.response);*/
+        return fetch(`/weather/city?q=${location}`).then(obj => obj.json());
     } else {
-        return fetch(`https://api.openweathermap.org/data/2.5/weather?id=${location}&units=metric&appid=bb00e2c76a482605b246251414383c30`)
-            .then(response => response.json());
+        return fetch(`/weather/city?id=${location}`).then(obj => obj.json());
     }
 }
 
@@ -50,10 +52,18 @@ function updateFavouriteCity(city, cityElement, isCalledFromStorage) {
                 cityElement.querySelector(".weather-features"),
                 [cityElement.children[1]]);
             if (!isCalledFromStorage)
-                if (localStorage.getItem(obj.id) !== null)
-                    throw new Error("This city has already been added.");
-                localStorage.setItem(obj.id, obj.id);
-                citiesNamesToIdsMap[obj.name] = obj.id;
+                fetch(`/favourites?id=${obj.id}`).then(response => response.json())
+                    .then(docs => {
+                        console.log(docs)
+                        if (docs.length === 0)
+                            fetch(`/favourites?id=${obj.id}`, {method: 'POST'})
+                                .then(() => citiesNamesToIdsMap[obj.name] = obj.id);
+                        else
+                            throw new Error("This city has already been added.");
+                    }).catch(error => {
+                        citiesList.removeChild(cityElement);
+                        alert(error);
+                });
         }).catch(error => {
         citiesList.removeChild(cityElement);
         alert(error);
@@ -77,8 +87,10 @@ function removeCity(caller) {
     let cityToRemove = caller.closest(".location-container");
     cityToRemove.remove();
     const cityName = cityToRemove.querySelector("div.favorite-item-header h3").innerHTML;
-    localStorage.removeItem(citiesNamesToIdsMap[cityName]);
-    delete citiesNamesToIdsMap[cityName];
+    //localStorage.removeItem(citiesNamesToIdsMap[cityName]);
+    console.log(citiesNamesToIdsMap[cityName]);
+    fetch(`/favourites?id=${citiesNamesToIdsMap[cityName]}`).then(() => delete citiesNamesToIdsMap[cityName]);
+    console.log(citiesNamesToIdsMap[cityName]);
 }
 
 function updateDefaultCity(position) {
@@ -89,7 +101,7 @@ function updateDefaultCity(position) {
             document.getElementById("weather-img-big"),
             document.getElementById("current-weather-features"),
             [document.getElementById("current-weather-block"), document.getElementById("current-weather-features")]))
-        .catch(() => alert("An error has occurred."));
+        .catch((err) => alert("An error has occurred." + err));
 }
 
 function refresh() {
@@ -97,9 +109,11 @@ function refresh() {
         [document.getElementById("current-weather-block"), document.getElementById("current-weather-features")]);
     document.querySelectorAll("#cities .location-container").forEach(city => city.remove());
     navigator.geolocation.getCurrentPosition(position => updateDefaultCity(position), () => updateDefaultCity("Moscow"));
-    for (let i = 0; i < localStorage.length; i++) {
-        addCity(localStorage.getItem(localStorage.key(i)), true);
-    }
+    fetch('/favourites').then(ids => ids.json()).then(ids => {
+        for (const id of ids) {
+            addCity(id.id /*localStorage.getItem(id)*/, true);
+        }
+    })
 }
 
 refresh();
