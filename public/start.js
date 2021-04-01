@@ -47,25 +47,35 @@ function hideWeather(loadingPlaceholderElement, elementsToHide = []) {
 function updateFavouriteCity(city, cityElement, isCalledFromStorage) {
     fetchLocation(city)
         .then(obj => {
-            showWeather(obj, cityElement.children[0],
-                cityElement.querySelector("div.favorite-item-header h3"),
-                cityElement.querySelector(".t-favourite"),
-                cityElement.querySelector(".weather-img"),
-                cityElement.querySelector(".weather-features"),
-                [cityElement.children[1]]);
             if (!isCalledFromStorage)
                 fetch(`/favourites?id=${obj.id}`).then(response => response.json())
                     .then(docs => {
                         if (docs.length === 0)
                             fetch(`/favourites?id=${obj.id}`, {method: 'POST'})
-                                .then(() => citiesNamesToIdsMap[obj.name] = obj.id);
+                                .then(() => {
+                                    citiesNamesToIdsMap[obj.name] = obj.id;
+                                    showWeather(obj, cityElement.children[0],
+                                        cityElement.querySelector("div.favorite-item-header h3"),
+                                        cityElement.querySelector(".t-favourite"),
+                                        cityElement.querySelector(".weather-img"),
+                                        cityElement.querySelector(".weather-features"),
+                                        [cityElement.children[1]]);
+                                });
                         else
                             throw new Error("This city has already been added.");
                     }).catch(error => {
                         citiesList.removeChild(cityElement);
                         alert(error);
                 });
-            else citiesNamesToIdsMap[obj.name] = obj.id;
+            else {
+                citiesNamesToIdsMap[obj.name] = obj.id;
+                showWeather(obj, cityElement.children[0],
+                    cityElement.querySelector("div.favorite-item-header h3"),
+                    cityElement.querySelector(".t-favourite"),
+                    cityElement.querySelector(".weather-img"),
+                    cityElement.querySelector(".weather-features"),
+                    [cityElement.children[1]]);
+            }
         }).catch(error => {
         citiesList.removeChild(cityElement);
         alert(error);
@@ -87,11 +97,19 @@ function addCityEventHandler(event) {
 
 function removeCity(caller) {
     let cityToRemove = caller.closest(".location-container");
-    cityToRemove.remove();
     const cityName = cityToRemove.querySelector("div.favorite-item-header h3").innerHTML;
+    cityToRemove.querySelector("div button i").innerHTML = "hourglass_full";
+    caller.onclick = null;
     //localStorage.removeItem(citiesNamesToIdsMap[cityName]);
     fetch(`/favourites?id=${citiesNamesToIdsMap[cityName]}`, { method: 'DELETE' })
-        .then(() => delete citiesNamesToIdsMap[cityName]);
+        .then(() => {
+            delete citiesNamesToIdsMap[cityName];
+            cityToRemove.remove();
+        }, error => {
+            caller.onclick = function() {removeCity(caller)};
+            cityToRemove.querySelector("div button i").innerHTML = "close";
+            alert(error);
+        });
 }
 
 function updateDefaultCity(position) {
